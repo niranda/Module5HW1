@@ -27,6 +27,9 @@ namespace StyleCop.Main
             _resourceService.GetSingleResourceError();
 
             _userService.CreateUser();
+            _userService.UpdateUserByPut();
+            _userService.UpdateUserByPatch();
+            _userService.DeleteUser();
 
             Console.ReadKey();
         }

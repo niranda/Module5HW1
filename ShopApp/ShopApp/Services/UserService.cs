@@ -56,5 +56,38 @@ namespace ShopApp.Services
             var serializedContent = new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json");
             await _httpService.SendAsync<UserOnAddDbo>(serializedContent, uri, httpMethod);
         }
+
+        public async Task UpdateUserByPut()
+        {
+            var uri = new Uri($"{_configService.DeserializeConfig().HttpService.Url}{_userUrl}/2");
+            var httpMethod = HttpMethod.Put;
+            var content = new UserOnAddDbo()
+            {
+                Name = "morpheus",
+                Job = "zion resident"
+            };
+            var serializedContent = new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json");
+            await _httpService.SendAsync<UserOnAddDbo>(serializedContent, uri, httpMethod);
+        }
+
+        public async Task UpdateUserByPatch()
+        {
+            var uri = new Uri($"{_configService.DeserializeConfig().HttpService.Url}{_userUrl}/2");
+            var httpMethod = HttpMethod.Patch;
+            var content = new UserOnAddDbo()
+            {
+                Name = "morpheus",
+                Job = "zion resident"
+            };
+            var serializedContent = new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json");
+            await _httpService.SendAsync<UserOnAddDbo>(serializedContent, uri, httpMethod);
+        }
+
+        public async Task DeleteUser()
+        {
+            var uri = new Uri($"{_configService.DeserializeConfig().HttpService.Url}{_userUrl}/2");
+            var httpMethod = HttpMethod.Delete;
+            await _httpService.SendAsync<UserOnAddDbo>(null, uri, httpMethod);
+        }
     }
 }

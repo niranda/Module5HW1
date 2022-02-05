@@ -30,6 +30,12 @@ namespace ShopApp.Services
                     return;
                 }
 
+                if (result.StatusCode == HttpStatusCode.NoContent)
+                {
+                    Console.WriteLine("Deleted successfully");
+                    return;
+                }
+
                 if (result.StatusCode == HttpStatusCode.OK || result.StatusCode == HttpStatusCode.Created)
                 {
                     var content = await result.Content.ReadAsStringAsync();

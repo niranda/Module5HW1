@@ -12,5 +12,8 @@ namespace ShopApp.Services.Abstractions
         public Task GetSingleUser();
         public Task GetSingleUserError();
         public Task CreateUser();
+        public Task UpdateUserByPut();
+        public Task UpdateUserByPatch();
+        public Task DeleteUser();
     }
 }
