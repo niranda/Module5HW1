@@ -25,21 +25,21 @@ namespace ShopApp.Services
         {
             var uri = new Uri($"{_configService.DeserializeConfig().HttpService.Url}{_resourceUrl}");
             var httpMethod = HttpMethod.Get;
-            await _httpService.SendAsync<ListDbo<ResourceDataDbo>>(null, uri, httpMethod);
+            await _httpService.SendAsync<ListDTO<ResourceDataDTO>>(null, uri, httpMethod);
         }
 
         public async Task GetSingleResource()
         {
             var uri = new Uri($"{_configService.DeserializeConfig().HttpService.Url}{_resourceUrl}/2");
             var httpMethod = HttpMethod.Get;
-            await _httpService.SendAsync<ResourceDbo>(null, uri, httpMethod);
+            await _httpService.SendAsync<ResourceDTO>(null, uri, httpMethod);
         }
 
         public async Task GetSingleResourceError()
         {
             var uri = new Uri($"{_configService.DeserializeConfig().HttpService.Url}{_resourceUrl}/23");
             var httpMethod = HttpMethod.Get;
-            await _httpService.SendAsync<ResourceDbo>(null, uri, httpMethod);
+            await _httpService.SendAsync<ResourceDTO>(null, uri, httpMethod);
         }
     }
 }

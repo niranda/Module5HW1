@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ShopApp.Models
 {
-    public class SupportDbo
+    public class UserOnAddDTO
     {
-        public string Url { get; set; } = default!;
-        public string Text { get; set; } = default!;
+        public string Name { get; set; }
+        public string Job { get; set; }
     }
 }

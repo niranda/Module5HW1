@@ -27,6 +27,14 @@ namespace ShopApp.Services
                 if (result.StatusCode == HttpStatusCode.NotFound)
                 {
                     Console.WriteLine("Error 404");
+                    var content = await result.Content.ReadAsStringAsync();
+                    var response = JsonConvert.DeserializeObject<T>(content);
+                    return;
+                }
+
+                if (result.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    Console.WriteLine("Something went wrong. Error 400");
                     return;
                 }
 
@@ -40,7 +48,7 @@ namespace ShopApp.Services
                 {
                     var content = await result.Content.ReadAsStringAsync();
                     var response = JsonConvert.DeserializeObject<T>(content);
-                    Console.WriteLine(response);
+                    Console.WriteLine($"Query Completed, status code: {result.StatusCode.ToString()}");
                 }
             }
         }

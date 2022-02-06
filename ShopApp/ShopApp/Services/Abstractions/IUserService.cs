@@ -9,6 +9,7 @@ namespace ShopApp.Services.Abstractions
     public interface IUserService
     {
         public Task GetUserList();
+        public Task GetPostponedUserList();
         public Task GetSingleUser();
         public Task GetSingleUserError();
         public Task CreateUser();

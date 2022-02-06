@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ShopApp.Models
 {
-    public class UserDbo
+    public class ResourceDTO
     {
-        public UserDataDbo Data { get; set; }
-        public SupportDbo Support { get; set; }
+        public ResourceDataDTO ResourceData { get; set; }
+        public SupportDTO Support { get; set; }
     }
 }

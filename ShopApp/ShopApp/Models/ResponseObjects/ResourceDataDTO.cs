@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ShopApp.Models
 {
-    public class ResourceDataDbo
+    public class ResourceDataDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }

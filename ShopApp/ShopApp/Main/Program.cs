@@ -1,7 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using ShopApp.Services.Abstractions;
-using ShopApp.Providers.Abstractions;
-using ShopApp.Providers;
 using ShopApp.Services;
 
 namespace StyleCop.Main
@@ -14,12 +14,18 @@ namespace StyleCop.Main
                 .AddSingleton<IHttpService, HttpService>()
                 .AddTransient<IUserService, UserService>()
                 .AddTransient<IResourceService, ResourceService>()
+                .AddTransient<IAuthService, AuthService>()
                 .AddTransient<IConfigService, ConfigService>()
                 .AddTransient<Starter>()
                 .BuildServiceProvider();
 
             var start = serviceProvider.GetService<Starter>();
-            start!.Run();
+            Task.Run(async () =>
+            {
+                await start.Run();
+            });
+
+            Console.ReadKey();
         }
     }
 }

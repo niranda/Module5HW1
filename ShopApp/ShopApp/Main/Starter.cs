@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 using ShopApp.Models;
 using ShopApp.Services.Abstractions;
-using ShopApp.Helpers;
 
 namespace StyleCop.Main
 {
@@ -9,29 +10,36 @@ namespace StyleCop.Main
     {
         private readonly IUserService _userService;
         private readonly IResourceService _resourceService;
+        private readonly IAuthService _authService;
 
-        public Starter(IUserService userService, IResourceService resourceService)
+        public Starter(IUserService userService, IResourceService resourceService, IAuthService authService)
         {
             _userService = userService;
             _resourceService = resourceService;
+            _authService = authService;
         }
 
-        public void Run()
+        public async Task Run()
         {
-            _userService.GetSingleUser();
-            _userService.GetUserList();
-            _userService.GetSingleUserError();
+            var list = new List<Task>();
+            list.Add(_userService.GetSingleUser());
+            list.Add(_userService.GetUserList());
+            list.Add(_userService.GetSingleUserError());
+            list.Add(_resourceService.GetResourceList());
+            list.Add(_resourceService.GetSingleResource());
+            list.Add(_resourceService.GetSingleResourceError());
+            list.Add(_userService.CreateUser());
+            list.Add(_userService.UpdateUserByPut());
+            list.Add(_userService.UpdateUserByPatch());
+            list.Add(_userService.DeleteUser());
+            list.Add(_authService.OnSuccessfulRegister());
+            list.Add(_authService.OnUnsuccessfulRegister());
+            list.Add(_authService.OnSuccessfulLogin());
+            list.Add(_authService.OnUnsuccessfulLogin());
+            list.Add(_userService.GetPostponedUserList());
 
-            _resourceService.GetResourceList();
-            _resourceService.GetSingleResource();
-            _resourceService.GetSingleResourceError();
-
-            _userService.CreateUser();
-            _userService.UpdateUserByPut();
-            _userService.UpdateUserByPatch();
-            _userService.DeleteUser();
-
-            Console.ReadKey();
+            await Task.WhenAll(list);
+            Console.WriteLine("Done");
         }
     }
 }
