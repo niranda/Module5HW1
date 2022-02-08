@@ -15,6 +15,7 @@ namespace StyleCop.Main
                 .AddTransient<IUserService, UserService>()
                 .AddTransient<IResourceService, ResourceService>()
                 .AddTransient<IAuthService, AuthService>()
+                .AddTransient<ILoggerService, LoggerService>()
                 .AddTransient<IConfigService, ConfigService>()
                 .AddTransient<Starter>()
                 .BuildServiceProvider();

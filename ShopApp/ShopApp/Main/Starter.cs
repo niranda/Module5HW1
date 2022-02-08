@@ -1,7 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Collections.Generic;
-using ShopApp.Models;
 using ShopApp.Services.Abstractions;
 
 namespace StyleCop.Main
@@ -11,12 +9,14 @@ namespace StyleCop.Main
         private readonly IUserService _userService;
         private readonly IResourceService _resourceService;
         private readonly IAuthService _authService;
+        private readonly ILoggerService _loggerService;
 
-        public Starter(IUserService userService, IResourceService resourceService, IAuthService authService)
+        public Starter(IUserService userService, IResourceService resourceService, IAuthService authService, ILoggerService loggerService)
         {
             _userService = userService;
             _resourceService = resourceService;
             _authService = authService;
+            _loggerService = loggerService;
         }
 
         public async Task Run()
@@ -39,7 +39,7 @@ namespace StyleCop.Main
             list.Add(_userService.GetPostponedUserList());
 
             await Task.WhenAll(list);
-            Console.WriteLine("Done");
+            _loggerService.CompletedMessage();
         }
     }
 }

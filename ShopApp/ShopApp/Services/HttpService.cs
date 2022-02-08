@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -13,43 +8,29 @@ namespace ShopApp.Services
 {
     public class HttpService : IHttpService
     {
-        public async Task SendAsync<T>(StringContent httpContent, Uri uri, HttpMethod httpMethod)
+        private readonly ILoggerService _loggerService;
+        public HttpService(ILoggerService loggerService)
+        {
+            _loggerService = loggerService;
+        }
+
+        public async Task<T> SendAsync<T>(object httpContent, Uri uri, HttpMethod httpMethod)
         {
             using (var httpClient = new HttpClient())
             {
                 var httpMessage = new HttpRequestMessage();
-                httpMessage.Content = httpContent;
+                httpMessage.Content = (HttpContent)httpContent;
                 httpMessage.RequestUri = uri;
                 httpMessage.Method = httpMethod;
 
                 var result = await httpClient.SendAsync(httpMessage);
 
-                if (result.StatusCode == HttpStatusCode.NotFound)
-                {
-                    Console.WriteLine("Error 404");
-                    var content = await result.Content.ReadAsStringAsync();
-                    var response = JsonConvert.DeserializeObject<T>(content);
-                    return;
-                }
+                var content = await result.Content.ReadAsStringAsync();
+                var response = JsonConvert.DeserializeObject<T>(content);
 
-                if (result.StatusCode == HttpStatusCode.BadRequest)
-                {
-                    Console.WriteLine("Something went wrong. Error 400");
-                    return;
-                }
+                _loggerService.RequestMessage(result.StatusCode);
 
-                if (result.StatusCode == HttpStatusCode.NoContent)
-                {
-                    Console.WriteLine("Deleted successfully");
-                    return;
-                }
-
-                if (result.StatusCode == HttpStatusCode.OK || result.StatusCode == HttpStatusCode.Created)
-                {
-                    var content = await result.Content.ReadAsStringAsync();
-                    var response = JsonConvert.DeserializeObject<T>(content);
-                    Console.WriteLine($"Query Completed, status code: {result.StatusCode.ToString()}");
-                }
+                return response;
             }
         }
     }
